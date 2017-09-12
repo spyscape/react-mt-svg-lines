@@ -94,6 +94,9 @@ What if you don't want the animation applied to *ALL* paths inside your SVG? Add
 * Remember to specify the `viewBox` on your SVGs, so they can be scaled to any size. By default, the SVG content will expand to fill its container, but you can give it a `width` attribute (either in finite units, or percentage).
 * IE/Edge: Doesn't seem to work on thick lines, round `stroke-linecap` appears regardless of offset, and other irregularities..
 
+### Changelog
+**Ver 0.8.1**
+* Fix Issue #11 (guard getTotalLength for undefined, occurs with Jest/Enzyme)
 
 ### Changelog
 **Ver 0.8.0**

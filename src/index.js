@@ -252,7 +252,7 @@ export default class MtSvgLines extends React.Component {
 
     [].forEach.call(pathElems, (pathEl, i) => {
       if (!this._hasSkipAttr(pathEl.attributes)) {
-        const pathLengh = trimFloat(pathEl.getTotalLength())
+        const pathLengh = trimFloat(pathEl.getTotalLength() || 0)
         pathData.to[ i ] = 0
         pathData.from[ i ] = pathLengh
       }
@@ -304,7 +304,7 @@ export default class MtSvgLines extends React.Component {
   _getPathLengths () {
     const pathElems = this._selectPathElems()
     return [].map.call(pathElems, (pathEl) => {
-      return this._hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength())
+      return this._hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength() || 0)
     })
   }
 
