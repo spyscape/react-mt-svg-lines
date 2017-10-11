@@ -11,7 +11,7 @@
     "stroke"
   ],
   "author": "Peter Morawiec",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
