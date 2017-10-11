@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 import { shortUID, clamp, trimFloat, isMsBrowser } from './utils.js'
 import TWEEN from '@tweenjs/tween.js'
 
-console.log(TWEEN)
-
 const EASING = {
   'ease': TWEEN.Easing.Quadratic.InOut,
   'ease-in': TWEEN.Easing.Cubic.In,

@@ -102,7 +102,7 @@ What if you don't want the animation applied to *ALL* paths inside your SVG? Add
 
 
 ### Changelog
-**Ver 0.8.2**
+**Ver 0.8.3**
 * Fix Issue #12 (leftover React.PropTypes, breaks React 16)
 
 **Ver 0.8.1**
