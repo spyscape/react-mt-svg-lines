@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { shortUID, clamp, trimFloat, isMsBrowser } from './utils.js'
-import TWEEN from 'tween.js'
+import TWEEN from '@tweenjs/tween.js'
+
+console.log(TWEEN)
 
 const EASING = {
   'ease': TWEEN.Easing.Quadratic.InOut,
@@ -24,7 +26,7 @@ export default class MtSvgLines extends React.Component {
     ]),
     duration: PropTypes.number, // total anim duration (ms)
     stagger: PropTypes.number, // delay between start times of each path (percentage)
-    timing: React.PropTypes.oneOf([ // easing type
+    timing: PropTypes.oneOf([
       'ease',
       'ease-in',
       'ease-out',
