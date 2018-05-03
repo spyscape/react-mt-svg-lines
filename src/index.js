@@ -198,7 +198,7 @@ export default class MtSvgLines extends React.Component {
         const t = setTimeout(() => {
           clearTimeout(t)
           this._onAnimComplete()
-        }, startDelay + duration * (numOfRepeats))
+        }, startDelay + (duration * numOfRepeats))
 
         // set state (re-render)
         this.setState({ css })
