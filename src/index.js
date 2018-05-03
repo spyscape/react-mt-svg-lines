@@ -136,7 +136,7 @@ export default class MtSvgLines extends React.Component {
 
       // parse out vars common for both modes
       const startDelay = typeof animate === 'number' ? animate : 0 // if numeric, treat as delay (ms)
-      let numOfRepeats = parseInt(playback, 10) || 0
+      let numOfRepeats = parseInt(playback, 10) || 1
 
       /* ----- JS MODE ----- */
       if (isAnimJS) {
