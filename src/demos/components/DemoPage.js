@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { version } from '../../../package.json';
 import MtSvgLines from '../../index.js'
 // import MtSvgLines from '../../../lib/'  // NOTE: uncomment to test built lib
 
@@ -48,7 +49,10 @@ export default class DemoPage extends React.Component {
         <a href='https://github.com/moarwick/react-mt-svg-lines' style={styles.gitHubLink}>
           { this.renderGithubLogo() }
         </a>
-        <h2 style={styles.title}>MtSvgLines</h2>
+        <h2 style={styles.title}>
+          MtSvgLines&nbsp;&nbsp;
+          <small style={styles.version}>ver { version }</small>
+        </h2>
 
         { isIE &&
           <div style={styles.ieMessage}>
@@ -226,6 +230,10 @@ const styles = {
     width: '100%',
     color: '#888',
     fontWeight: 200
+  },
+  version: {
+    color: '#aaa',
+    fontSize: 14,
   },
   row: {
     borderTop: '1px solid #888',
