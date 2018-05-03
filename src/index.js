@@ -82,11 +82,11 @@ export default class MtSvgLines extends React.Component {
   }
 
   componentDidMount () {
-    this._animate()
+    this.animate()
   }
 
   componentDidUpdate () {
-    this._animate()
+    this.animate()
   }
 
   render () {
@@ -119,7 +119,7 @@ export default class MtSvgLines extends React.Component {
   /*
    * Main animate handler, called after each render update
    */
-  _animate () {
+  animate () {
     if (typeof window === 'undefined') { return }
 
     const { animate, duration, stagger, timing, playback, jsOnly } = this.props
@@ -136,7 +136,7 @@ export default class MtSvgLines extends React.Component {
 
       // parse out vars common for both modes
       const startDelay = typeof animate === 'number' ? animate : 0 // if numeric, treat as delay (ms)
-      let numOfRepeats = parseInt(playback, 10) || 0
+      let numOfRepeats = parseInt(playback, 10) || 1
 
       /* ----- JS MODE ----- */
       if (isAnimJS) {
@@ -146,8 +146,8 @@ export default class MtSvgLines extends React.Component {
         const isYoYo = playback.includes('alternate')
 
         // acquire path elems and generate to/from data sets
-        this._pathElems = this._selectPathElems()
-        const pathData = this._getPathData(this._pathElems)
+        this._pathElems = this.selectPathElems()
+        const pathData = this.getPathData(this._pathElems)
         this._pathDataFrom = pathData.from
         this._pathDataTo = pathData.to
 
@@ -157,8 +157,8 @@ export default class MtSvgLines extends React.Component {
         this._tweenData = { ...this._pathDataFrom }
 
         // set paths' offsets to start positions
-        this._setStrokeDasharray(this._pathElems, this._pathDataFrom)
-        this._setStrokeDashoffset(this._pathElems, this._tweenData)
+        this.setStrokeDasharray(this._pathElems, this._pathDataFrom)
+        this.setStrokeDashoffset(this._pathElems, this._tweenData)
 
         // init the tweener..
         const tween = new TWEEN.Tween(this._tweenData)
@@ -166,8 +166,8 @@ export default class MtSvgLines extends React.Component {
           .easing(EASING[ timing ])
           .repeat(numOfRepeats)
           .yoyo(isYoYo)
-          .onUpdate(this._onTweenUpdate)
-          .onComplete(this._onAnimComplete)
+          .onUpdate(this.onTweenUpdate)
+          .onComplete(this.onAnimComplete)
 
         // kick off JS tweening..
         const t = setTimeout(() => {
@@ -181,7 +181,7 @@ export default class MtSvgLines extends React.Component {
         let css = ''
 
         // 1) determine number of path elems in svg
-        const pathLenghts = this._getPathLengths()
+        const pathLenghts = this.getPathLengths()
         const pathQty = pathLenghts.length || 1
 
         // 2) calc all timing values
@@ -191,14 +191,14 @@ export default class MtSvgLines extends React.Component {
 
         // 3) concat generated CSS, one path at a time..
         pathLenghts.forEach((length, index) => {
-          css += this._getPathCSS(index, length, startDelay, pathStaggerDelay, pathDrawDuration)
+          css += this.getPathCss(index, length, startDelay, pathStaggerDelay, pathDrawDuration)
         })
 
         // set up on-complete timer
         const t = setTimeout(() => {
           clearTimeout(t)
-          this._onAnimComplete()
-        }, startDelay + duration * (numOfRepeats))
+          this.onAnimComplete()
+        }, startDelay + (duration * numOfRepeats))
 
         // set state (re-render)
         this.setState({ css })
@@ -220,15 +220,15 @@ export default class MtSvgLines extends React.Component {
   /*
    * On each Tween update, set dash offsets to newly tweened values
    */
-  _onTweenUpdate = () => {
-    this._setStrokeDashoffset(this._pathElems, this._tweenData)
-    this._animate() // go again..
+  onTweenUpdate = () => {
+    this.setStrokeDashoffset(this._pathElems, this._tweenData)
+    this.animate() // go again..
   }
 
   /*
    * When animation completes, run callback (if any), clear start timestamp
    */
-  _onAnimComplete = () => {
+  onAnimComplete = () => {
     this.props.callback()
     this._animStart = 0
   }
@@ -236,7 +236,7 @@ export default class MtSvgLines extends React.Component {
   /*
    * Acquire selection of SVG 'path' elems contained within
    */
-  _selectPathElems () {
+  selectPathElems () {
     const svgEl = this._svgWrapper.getElementsByTagName('svg')[0]
     return svgEl ? svgEl.querySelectorAll('path') : []
   }
@@ -247,11 +247,11 @@ export default class MtSvgLines extends React.Component {
    * The 'from' object values are the paths' lengths
    * The 'to' object values are 0 (unless 'skip' attr is present, then equal path's length)
    */
-  _getPathData (pathElems) {
+  getPathData (pathElems) {
     const pathData = { from: {}, to: {} };
 
     [].forEach.call(pathElems, (pathEl, i) => {
-      if (!this._hasSkipAttr(pathEl.attributes)) {
+      if (!this.hasSkipAttr(pathEl.attributes)) {
         const pathLengh = trimFloat(pathEl.getTotalLength() || 0)
         pathData.to[ i ] = 0
         pathData.from[ i ] = pathLengh
@@ -264,7 +264,7 @@ export default class MtSvgLines extends React.Component {
   /*
    * Check path's attributes for data-mt="skip"
    */
-  _hasSkipAttr (attributes) {
+  hasSkipAttr (attributes) {
     let result = false
 
     // path.attributes is an obj with indexed keys, so we must iterate over them
@@ -283,7 +283,7 @@ export default class MtSvgLines extends React.Component {
   /*
    * Set style.strokeDasharray on all paths in selection, from the provided key-val object
    */
-  _setStrokeDasharray (pathElems, pathData) {
+  setStrokeDasharray (pathElems, pathData) {
     [].forEach.call(pathElems, (pathEl, i) => {
       if (pathData[ i ]) { pathEl.style.strokeDasharray = pathData[ i ] }
     })
@@ -292,7 +292,7 @@ export default class MtSvgLines extends React.Component {
   /*
    * Set style.strokeDashoffset on all paths in selection, from the provided key-val object
    */
-  _setStrokeDashoffset (pathElems, pathData) {
+  setStrokeDashoffset (pathElems, pathData) {
     [].forEach.call(pathElems, (pathEl, i) => {
       if (pathData[ i ]) { pathEl.style.strokeDashoffset = pathData[ i ] }
     })
@@ -301,17 +301,17 @@ export default class MtSvgLines extends React.Component {
   /*
    * Return an array containing lengths of all path elems inside the SVG
    */
-  _getPathLengths () {
-    const pathElems = this._selectPathElems()
+  getPathLengths () {
+    const pathElems = this.selectPathElems()
     return [].map.call(pathElems, (pathEl) => {
-      return this._hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength() || 0)
+      return this.hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength() || 0)
     })
   }
 
   /*
    * Return CSS for a single path elem (using classKey and path index as the CSS selector)
    */
-  _getPathCSS (index, length, startDelay, staggerDelay, duration) {
+  getPathCss (index, length, startDelay, staggerDelay, duration) {
     const { classKey } = this.state
     const { timing, playback, fade } = this.props
 
