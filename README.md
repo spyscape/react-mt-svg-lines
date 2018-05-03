@@ -102,26 +102,4 @@ What if you don't want the animation applied to *ALL* paths inside your SVG? Add
 
 
 ### Changelog
-**Ver 0.8.3**
-* Fix Issue #12 (leftover React.PropTypes, breaks React 16)
-
-**Ver 0.8.1**
-* Fix Issue #11 (guard getTotalLength for undefined, occurs with Jest/Enzyme)
-
-### Changelog
-**Ver 0.8.0**
-* Update dependencies
-* Migrate to Webpack 3
-* Use prop-types package
-
-**Ver 0.7.3**
-* No-op server-side
-* Do not budle/minify distribution package
-* Update dependencies
-* ESLint Standard
-
-**Ver 0.6.0**
-* Experimental support for IE/Edge via Tween.js
-
-**Ver 0.5.0**
-* Callback prop
+See [Releases](https://github.com/moarwick/react-mt-svg-lines/releases)
