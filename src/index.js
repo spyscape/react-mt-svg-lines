@@ -180,10 +180,11 @@ export default class MtSvgLines extends React.Component {
    */
   getPathLengths() {
     const pathElems = this.selectPathElems();
-    return [].map.call(
-      pathElems,
-      pathEl => (this.hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength() || 0))
-    );
+    return [].map.call(pathElems, pathEl => {
+      if (!pathEl.getTotalLength) return 0;
+
+      return this.hasSkipAttr(pathEl.attributes) ? 0 : trimFloat(pathEl.getTotalLength() || 0);
+    });
   }
 
   /*
